@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home_page</title>
+    <link rel="stylesheet/less" type="text/css" href="style.css" />
+</head>
+<body>
+    <div class="login-container">
+        <h2>Secure Login</h2>
+        <form id="login-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <input type="submit" value="Login">
+        </form>
+        <div class="social-login">
+            <button class="google">
+                <img src="google_icon.svg" alt="Google">
+                Google
+            </button>
+            <button class="facebook">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Facebook_Logo_2023.png" alt="Facebook">
+                Facebook
+            </button>
+        </div>
+        <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+        </div>
+        <div class="create-account">
+            <a id="show-register">Create an Account</a>
+        </div>
+
+        <div class="register-container" id="register-container">
+            <h2>Create Account</h2>
+            <form id="register-form">
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" name="username" placeholder="Enter your username" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="password" placeholder="Enter your password" required>
+
+                <input type="submit" value="Register">
+            </form>
+            <div class="back-to-login" id="back-to-login">Back to Login</div>
+        </div>
+    </div>
+
+
+    <script>
+        const registerContainer = document.getElementById('register-container');
+        const showRegister = document.getElementById('show-register');
+        const backToLogin = document.getElementById('back-to-login');
+
+        showRegister.addEventListener('click', () => {
+            registerContainer.classList.add('active');
+        });
+
+        backToLogin.addEventListener('click', () => {
+            registerContainer.classList.remove('active');
+        });
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/less" ></script>
+</body>
+</html>
