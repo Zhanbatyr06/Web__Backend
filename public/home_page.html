@@ -32,7 +32,7 @@
             <a href="#">Forgot Password?</a>
         </div>
         <div class="create-account">
-            <a id="show-register">Create an Account</a>
+            <button><a id="show-register">Create an Account</a></button>
         </div>
 
         <div class="register-container" id="register-container">
@@ -54,19 +54,8 @@
     </div>
 
 
-    <script>
-        const registerContainer = document.getElementById('register-container');
-        const showRegister = document.getElementById('show-register');
-        const backToLogin = document.getElementById('back-to-login');
-
-        showRegister.addEventListener('click', () => {
-            registerContainer.classList.add('active');
-        });
-
-        backToLogin.addEventListener('click', () => {
-            registerContainer.classList.remove('active');
-        });
-    </script>
+    
 <script src="https://cdn.jsdelivr.net/npm/less" ></script>
+<script src="functions/fetchFrontenDnBackenD.js"></script>
 </body>
 </html>
