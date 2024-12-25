@@ -56,3 +56,7 @@ app.delete('/files/:id', (req, res) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home_page.html'));
 });
+
+app.get('/main', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'main.html'));
+});
