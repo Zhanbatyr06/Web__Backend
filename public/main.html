@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Sharing Service</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">FileShare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#upload">Upload</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#history">Activity History</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1>Welcome to FileShare</h1>
+            <p class="lead">Securely upload, share, and manage your files.</p>
+        </div>
+    </header>
+
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center">Features</h2>
+            <div class="row text-center mt-4">
+                <div class="col-md-4">
+                    <div class="card p-4">
+                        <h5>Secure Uploads</h5>
+                        <p>Upload files with end-to-end encryption and secure links.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4">
+                        <h5>Access Control</h5>
+                        <p>Set passwords, expiration dates, and permissions for file sharing.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-4">
+                        <h5>Activity History</h5>
+                        <p>Track and review your uploads and downloads.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="upload" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center">Upload Files</h2>
+            <form class="mt-4" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="fileInput" class="form-label">Select File</label>
+                    <input type="file" class="form-control" id="fileInput" name="file">
+                </div>
+                <div class="mb-3">
+                    <label for="accessControl" class="form-label">Access Control</label>
+                    <input type="password" class="form-control" id="accessControl" name="password" placeholder="Set a password (optional)">
+                </div>
+                <div class="mb-3">
+                    <label for="expiry" class="form-label">Link Expiry</label>
+                    <select class="form-select" id="expiry" name="expiry">
+                        <option value="1">1 Hour</option>
+                        <option value="24">1 Day</option>
+                        <option value="168">1 Week</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="history" class="py-5">
+        <div class="container">
+            <h2 class="text-center">Activity History</h2>
+            <p class="text-center">Your past uploads and downloads will appear here.</p>
+            <div class="mt-4">
+                <!-- Placeholder for dynamic content -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Example.pdf</td>
+                            <td>2024-12-25</td>
+                            <td>Downloaded</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 FileShare. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
