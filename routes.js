@@ -68,6 +68,7 @@ router.delete('/files/:id', async (req, res) => {
         const deletedFile = await File.findByIdAndDelete(id);
         if (!deletedFile) {
             return res.status(404).json({ error: 'File not found' });
+            
         }
         res.json({ message: 'File deleted successfully!', file: deletedFile });
     } catch (error) {
