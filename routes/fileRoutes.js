@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const upload = require('../middleware/uploadMiddleware');
+const fs = require('fs');
+const path = require('path');
 
 // Определение схемы и модели для файлов
 const fileSchema = new mongoose.Schema({
     name: { type: String, required: true },
     size: { type: String, required: true },
+    path: { type: String, required: true },
     uploadedAt: { type: Date, default: Date.now },
 });
 const File = mongoose.model('File', fileSchema);
@@ -21,18 +25,45 @@ router.get('/files', async (req, res) => {
 });
 
 // Маршрут для загрузки нового файла (POST)
-router.post('/upload', async (req, res) => {
-    const { name, size } = req.body;
-    if (!name || !size) {
-        return res.status(400).json({ error: 'Name and size are required!' });
-    }
-
+router.post('/upload', upload.single('file'), async (req, res) => {
     try {
-        const newFile = new File({ name, size });
+        const filePath = req.file.path;
+        const { originalname, size } = req.file;
+
+        const newFile = new File({
+            name: originalname,
+            size: size,
+            path: filePath,
+        });
+
         await newFile.save();
         res.status(201).json({ message: 'File uploaded successfully!', file: newFile });
     } catch (error) {
         res.status(500).json({ error: 'Failed to upload file' });
+    }
+});
+
+// Маршрут для удаления файла (DELETE)
+router.delete('/files/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedFile = await File.findByIdAndDelete(id);
+        if (!deletedFile) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+
+        // Удаление файла с диска
+        const filePath = deletedFile.path;
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                console.error('Error deleting file from disk:', err);
+                return res.status(500).json({ error: 'Failed to delete file from disk' });
+            }
+            res.json({ message: 'File deleted successfully!', file: deletedFile });
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete file' });
     }
 });
 
@@ -57,22 +88,6 @@ router.put('/files/:id', async (req, res) => {
         res.json({ message: 'File updated successfully!', file: updatedFile });
     } catch (error) {
         res.status(500).json({ error: 'Failed to update file' });
-    }
-});
-
-// Маршрут для удаления файла (DELETE)
-router.delete('/files/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const deletedFile = await File.findByIdAndDelete(id);
-        if (!deletedFile) {
-            return res.status(404).json({ error: 'File not found' });
-            
-        }
-        res.json({ message: 'File deleted successfully!', file: deletedFile });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to delete file' });
     }
 });
 
