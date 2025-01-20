@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const app = express();
 const PORT = 3000;
 const fileRoutes = require('./routes/fileRoutes');
+const productRoutes = require('./routes/productRoutes');
+
 dotenv.config();
 
 connectDB();
@@ -15,6 +17,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/api', fileRoutes);
+
+app.use('/api/products', productRoutes);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home_page.html'));
