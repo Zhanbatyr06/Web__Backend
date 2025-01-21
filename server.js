@@ -6,6 +6,7 @@ const app = express();
 const PORT = 3000;
 const fileRoutes = require('./routes/fileRoutes');
 const productRoutes = require('./routes/productRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/api', fileRoutes);
-
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
 app.get('/', (req, res) => {
