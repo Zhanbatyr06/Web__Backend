@@ -1,5 +1,5 @@
-const API_BASE_URL = 'http://localhost:8080/api/auth'; // Ваш API URL
-console.log('Hello, World!');
+const API_BASE_URL = 'http://localhost:3000/api/auth'; // Ваш API URL
+
 
 
 // Регистрация
@@ -26,23 +26,26 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
 });
 
 // Логин
+// Логин
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    const username = document.getElementById('username').value; // Corrected to match the HTML ID
+    const password = document.getElementById('password').value; // Corrected to match the HTML ID
 
     try {
         const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, password }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            document.getElementById('login-message').textContent = `Login successful! Token: ${data.token}`;
+            // Login successful: store token and redirect
+            localStorage.setItem('authToken', data.token); // Optionally store the token in localStorage
+            window.location.href = '/main.html'; // Redirect to the dashboard page
         } else {
             document.getElementById('login-message').textContent = data.message || 'Invalid credentials';
         }
@@ -51,3 +54,4 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
         console.error(error);
     }
 });
+    

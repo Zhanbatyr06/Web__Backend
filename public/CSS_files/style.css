@@ -112,21 +112,26 @@ body {
 }
 
 .register-container {
-  position: absolute;
-  top: 0;
-  left: 100%;
   width: 100%;
+  max-width: 400px;
   background: rgba(255, 255, 255, 0.95);
-  height: 100%;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
   transition: left 0.3s ease-in-out;
+  
 }
 
 .register-container.active {
   left: 0;
+}
+.login-container.hidden {
+  display: none;
 }
 
 .register-container h2 {
