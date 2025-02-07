@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use(cors({ origin: "https://web-backend-ryx1.onrender.com" }));
+app.use(cors({ origin: "https://web-backend-bbex.onrender.com" }));
 
 app.use(cors());
 
