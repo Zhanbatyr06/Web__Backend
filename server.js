@@ -7,6 +7,7 @@ const PORT = 3000;
 const fileRoutes = require('./routes/fileRoutes');
 const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/authRoutes');
+const cors = require("cors");
 
 dotenv.config();
 
@@ -16,6 +17,10 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use(cors({ origin: "https://web-backend-ryx1.onrender.com" }));
+
+app.use(cors());
 
 app.use('/api', fileRoutes);
 app.use('/api/auth', authRoutes);
