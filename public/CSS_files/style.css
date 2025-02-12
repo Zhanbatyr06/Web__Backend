@@ -1,3 +1,10 @@
+.auth-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -14,7 +21,6 @@ body {
   max-width: 400px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
   box-sizing: border-box;
   position: relative;
@@ -115,24 +121,49 @@ body {
   width: 100%;
   max-width: 400px;
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
   box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  padding: 20px;
-  box-sizing: border-box;
-  transition: left 0.3s ease-in-out;
-  
+  position: absolute;
+  top: 0;
+  left: 100%;
+  transition: transform 0.3s ease;
+}
+
+.register-container {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
 .register-container.active {
-  left: 0;
+  visibility: visible;
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateX(-100%);
+  pointer-events: auto; /* Активируем взаимодействие */
 }
+
+.register-container.active {
+  transform: translateX(-100%);
+}
+
 .login-container.hidden {
-  display: none;
+  transform: translateX(-100%);
+  pointer-events: none;
 }
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 100px;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
 
 .register-container h2 {
   text-align: center;
