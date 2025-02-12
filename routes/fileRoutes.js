@@ -23,10 +23,45 @@ router.get('/files', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch files' });
     }
 });
+router.get('/download/:id', async (req, res) => {
+    try {
+        console.log('Download request for ID:', req.params.id);
 
+        const file = await File.findById(req.params.id);
+        if (!file) {
+            console.error('File not found in database:', req.params.id);
+            return res.status(404).json({ error: 'File not found' });
+        }
+
+        console.log('File found:', file);
+
+        const filePath = path.join(__dirname, '..', file.path); // Убедись, что путь полный
+        console.log('Full file path:', filePath);
+
+        if (!fs.existsSync(filePath)) {
+            console.error('File not found on disk:', filePath);
+            return res.status(404).json({ error: 'File not found on disk' });
+        }
+
+        res.download(filePath, file.name, (err) => {
+            if (err) {
+                console.error('Download error:', err);
+                res.status(500).json({ error: 'Failed to download file' });
+            }
+        });
+    } catch (error) {
+        console.error('Error downloading file:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 // Маршрут для загрузки нового файла (POST)
 router.post('/upload', upload.single('file'), async (req, res) => {
     try {
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
         const filePath = req.file.path;
         const { originalname, size } = req.file;
 
@@ -36,10 +71,10 @@ router.post('/upload', upload.single('file'), async (req, res) => {
             path: filePath,
         });
 
-        await newFile.save();
-        res.status(201).json({ message: 'File uploaded successfully!', file: newFile });
+        const savedFile = await newFile.save();
+        res.status(201).json({ message: 'File uploaded successfully!', file: savedFile });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to upload file' });
+        res.status(500).json({ error: 'Failed to upload file', details: error.message});
     }
 });
 

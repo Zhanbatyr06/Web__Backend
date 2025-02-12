@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://web-backend-bbex.onrender.com/api/auth'; // Ваш API URL
+const API_BASE_URL = 'http://localhost:3000/api/auth'; // Ваш API URL
 
 
 
