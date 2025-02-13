@@ -18,14 +18,47 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         });
 
         const data = await response.json();
-        document.getElementById('register-message').textContent = data.message || 'Registration successful!';
+        const notification = document.getElementById('notification');
+
+        // Очищаем предыдущие классы
+        notification.className = 'notification';
+
+        if (response.ok) {
+            // Успешная регистрация
+            notification.classList.add('success');
+            notification.textContent = 'Регистрация успешно завершена!';
+            notification.style.display = 'block';
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+                window.location.href = '/main.html';
+            }, 3000);
+        } else {
+            // Ошибка регистрации
+            notification.classList.add('error');
+            notification.textContent = data.message === 'Email already registered'
+                ? 'Этот email уже зарегистрирован!'
+                : 'Ошибка при регистрации!';
+            notification.style.display = 'block';
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
     } catch (error) {
-        document.getElementById('register-message').textContent = 'An error occurred. Please try again.';
+        const notification = document.getElementById('notification');
+        notification.className = 'notification error';
+        notification.textContent = 'Произошла ошибка. Пожалуйста, попробуйте снова.';
+        notification.style.display = 'block';
+
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+
         console.error(error);
     }
 });
 
-// Логин
 // Логин
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
