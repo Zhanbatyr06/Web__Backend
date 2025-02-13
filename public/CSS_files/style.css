@@ -239,3 +239,13 @@ body {
 .notification.error {
   background-color: #f44336;
 }
+
+.text-success {
+  color: #28a745 !important;
+  font-weight: bold;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+  font-weight: bold;
+}

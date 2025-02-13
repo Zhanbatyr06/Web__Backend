@@ -11,6 +11,7 @@ const fileSchema = new mongoose.Schema({
     size: { type: String, required: true },
     path: { type: String, required: true },
     uploadedAt: { type: Date, default: Date.now },
+    access: { type: String, default: 'private' },
 });
 const File = mongoose.model('File', fileSchema);
 
@@ -64,11 +65,13 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
         const filePath = req.file.path;
         const { originalname, size } = req.file;
+        const access = req.body.access || "private";
 
         const newFile = new File({
             name: originalname,
             size: size,
             path: filePath,
+            access: access
         });
 
         const savedFile = await newFile.save();

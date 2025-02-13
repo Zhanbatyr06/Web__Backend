@@ -8,6 +8,7 @@ const fileSchema = new mongoose.Schema({
         type: String, 
         enum: ['public', 'private'], 
         default: 'private',
+        required: true
     }, // Доступ: публичный или приватный
     createdAt: { type: Date, default: Date.now },
 });

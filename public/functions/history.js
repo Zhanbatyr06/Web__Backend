@@ -1,3 +1,7 @@
+function getStatusDisplay(access) {
+    return access === 'public' ? 'Public' : 'Private';
+}
+
 // Функция для получения списка файлов с сервера и обновления таблицы
 async function fetchFiles() {
     try {
@@ -16,9 +20,12 @@ async function fetchFiles() {
             const nameCell = row.insertCell();
             const dateCell = row.insertCell();
             const downloadCell = row.insertCell();
+            const statusCell = row.insertCell();
 
             nameCell.textContent = file.name;
             dateCell.textContent = new Date(file.uploadedAt).toLocaleString();
+            statusCell.textContent = getStatusDisplay(file.access);
+            statusCell.classList.add(file.access === 'public' ? 'text-success' : 'text-danger');
 
             const downloadButton = document.createElement('button'); // Создаем кнопку программно
             downloadButton.classList.add('btn', 'btn-success', 'btn-sm', 'download-btn');
@@ -108,3 +115,4 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchFiles(); // Загружаем список файлов при загрузке страницы
 
 });
+
