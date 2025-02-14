@@ -36,6 +36,24 @@
             <div class="create-account">
                 <button class="btn btn-link" style="text-decoration: none"><a id="show-register">Create an Account</a></button>
             </div>
+
+        </div>
+        <!-- Форма для 2FA-кода, оформленная с использованием Bootstrap -->
+        <div class="card mx-auto" style="max-width: 400px; display: none;" id="twoFA-card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Подтверждение 2FA</h5>
+                <form id="twoFA-form">
+                    <div class="mb-3">
+                        <label for="twoFA-code" class="form-label">Введите 2FA-код</label>
+                        <input type="text" class="form-control" id="twoFA-code" name="twoFA-code" placeholder="6-значный код" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Проверить</button>
+                    <div class="mt-3">
+                        <p id="twoFA-message" class="text-center"></p>
+                        <p id="twoFA-error" class="text-danger text-center"></p>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <div class="register-container" id="register-container">

@@ -1,8 +1,5 @@
-const API_BASE_URL = 'http://localhost:3000/api/auth'; // Ваш API URL
+const API_BASE_URL = 'http://localhost:3000/api/auth';
 
-
-
-// Регистрация
 document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -20,11 +17,9 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         const data = await response.json();
         const notification = document.getElementById('notification');
 
-        // Очищаем предыдущие классы
         notification.className = 'notification';
 
         if (response.ok) {
-            // Успешная регистрация
             notification.classList.add('success');
             notification.textContent = 'Регистрация успешно завершена!';
             notification.style.display = 'block';
@@ -34,7 +29,6 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
                 window.location.href = '/main.html';
             }, 3000);
         } else {
-            // Ошибка регистрации
             notification.classList.add('error');
             notification.textContent = data.message === 'Email already registered'
                 ? 'Этот email уже зарегистрирован!'
@@ -59,12 +53,11 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     }
 });
 
-// Логин
 document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById('username').value; // Corrected to match the HTML ID
-    const password = document.getElementById('password').value; // Corrected to match the HTML ID
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
     try {
         const response = await fetch(`${API_BASE_URL}/login`, {
@@ -75,16 +68,51 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
         const data = await response.json();
 
-        if (response.ok) {
-            // Login successful: store token and redirect
-            localStorage.setItem('authToken', data.token); // Optionally store the token in localStorage
-            window.location.href = '/main.html'; // Redirect to the dashboard page
+        if (response.ok && data.userId) {
+            // Скрываем контейнер логина
+            document.querySelector('.login-container').style.display = 'none';
+            document.getElementById('twoFA-card').style.display = 'block';
+            // Отображаем форму для ввода 2FA-кода
+            document.getElementById('twoFA-form').style.display = 'block';
+            // Сохраняем userId для дальнейшей проверки 2FA
+            document.getElementById('twoFA-form').setAttribute('data-userid', data.userId);
+            // Выводим сообщение для пользователя (при необходимости)
+            document.getElementById('twoFA-message').textContent = data.message;
         } else {
-            document.getElementById('login-message').textContent = data.message || 'Invalid credentials';
+            // Выводим сообщение об ошибке (например, в элементе с id="login-message")
+            document.getElementById('login-message').textContent = data.message || 'Неверные учетные данные';
         }
     } catch (error) {
-        document.getElementById('login-message').textContent = 'An error occurred. Please try again.';
+        document.getElementById('login-message').textContent = 'Произошла ошибка. Пожалуйста, попробуйте снова.';
         console.error(error);
     }
 });
-    
+// Логика верификации 2FA (второй шаг)
+document.getElementById('twoFA-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const userId = document.getElementById('twoFA-form').getAttribute('data-userid');
+    const code = document.getElementById('twoFA-code').value;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/verify-2fa`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, code }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.token) {
+            // Сохранить полученный токен и перенаправить к основному контенту
+            localStorage.setItem('authToken', data.token);
+            window.location.href = '/main.html';
+        } else {
+            // Если верификация не проходит, отобразить ошибку
+            document.getElementById('twoFA-error').textContent = data.message || 'Неверный код. Попробуйте снова.';
+        }
+    } catch (error) {
+        document.getElementById('twoFA-error').textContent = 'Произошла ошибка. Пожалуйста, попробуйте снова.';
+        console.error(error);
+    }
+});
